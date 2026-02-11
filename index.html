@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>제품 소개</title>
+
   <style>
-    body {
+    html, body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      text-align: center;
+      padding: 0;
+      width: 100%;
+      background: #000;
     }
+
     .btn {
       position: fixed;
       top: 0;
+      left: 0;
       width: 100%;
+      height: 56px;
       background: #000;
       color: #fff;
-      padding: 14px;
       font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 56px;
       text-decoration: none;
       z-index: 1000;
     }
-    .content {
-      margin-top: 70px;
+
+    .wrapper {
+      padding-top: 56px; /* 버튼 높이만큼 */
     }
+
     img {
-      width: 100%;
-      max-width: 900px;
+      display: block;
+      width: 100vw;
       height: auto;
+      max-width: none;
     }
   </style>
 </head>
@@ -37,8 +47,11 @@
   📩 견적 요청하기
 </a>
 
-<div class="content">
-  <img src="여기에_Cloudinary_이미지_URL" alt="제품 이미지">
+<div class="wrapper">
+  <img
+    src="https://res.cloudinary.com/dxki3uczu/image/upload/q_auto,f_auto,w_1200/bx-series-qr-banner.png"
+    alt="제품 이미지"
+  />
 </div>
 
 </body>
