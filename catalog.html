@@ -14,39 +14,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ===== 언어 선택 화면 ===== */
-.lang-select {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  z-index: 5000;
-}
-
-.lang {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.35s ease, background 0.35s ease;
-}
-
-.lang.kor {
-  background: linear-gradient(135deg, #111, #333);
-}
-
-.lang.eng {
-  background: linear-gradient(135deg, #333, #111);
-}
-
-.lang:hover {
-  transform: scale(1.03);
-}
-
-/* ===== 헤더 ===== */
+/* ===== 공통 헤더 ===== */
 .header {
   position: fixed;
   top: 0;
@@ -62,7 +30,12 @@ html, body {
 }
 
 .logo { height: 22px; }
-.phone { color: #000; font-weight: 600; text-decoration: none; }
+.phone {
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
 
 /* ===== CTA ===== */
 .cta {
@@ -73,7 +46,7 @@ html, body {
   background: linear-gradient(270deg, #ff6a00, #ff9f00, #ff6a00);
   background-size: 400% 400%;
   color: #fff;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
   text-align: center;
   line-height: 56px;
@@ -82,11 +55,63 @@ html, body {
   animation: gradient 4s ease infinite, pulse 1.8s ease infinite;
 }
 
+/* ===== 언어 선택 ===== */
+.lang-select {
+  position: fixed;
+  inset: 0;
+  padding-top: 112px;
+  display: flex;
+  z-index: 2000;
+}
+
+.lang {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.4s ease, transform 0.4s ease;
+}
+
+.lang:hover {
+  transform: scale(1.02);
+}
+
+.lang.kor { background: #111; }
+.lang.eng { background: #1a1a1a; }
+
+.lang .title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.lang .sub {
+  margin-top: 6px;
+  font-size: 15px;
+  color: #aaa;
+}
+
+/* 하단 안내 */
+.select-guide {
+  position: fixed;
+  bottom: 24px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #fff;
+  animation: blink 1.4s infinite;
+  z-index: 2100;
+}
+
 /* ===== 슬라이더 ===== */
 .slider-container {
   padding-top: 112px;
   height: 100vh;
   overflow: hidden;
+  display: none;
 }
 
 .slider {
@@ -102,7 +127,18 @@ html, body {
   flex-shrink: 0;
 }
 
-/* 페이지 표시 */
+/* 좌우 안내 */
+.swipe-guide {
+  position: fixed;
+  bottom: 60px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* 페이지 */
 .page-indicator {
   position: fixed;
   bottom: 16px;
@@ -125,16 +161,14 @@ html, body {
   50% { transform: scale(1.03); }
   100% { transform: scale(1); }
 }
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
 </style>
 </head>
 
 <body>
-
-<!-- 언어 선택 -->
-<div class="lang-select" id="langSelect">
-  <div class="lang kor" onclick="loadCatalog('kor')">📘 KOREAN CATALOG</div>
-  <div class="lang eng" onclick="loadCatalog('eng')">📕 ENGLISH CATALOG</div>
-</div>
 
 <!-- 헤더 -->
 <div class="header">
@@ -147,29 +181,47 @@ html, body {
   📩 제품 문의 및 견적 요청
 </a>
 
+<!-- 언어 선택 -->
+<div class="lang-select" id="langSelect">
+  <div class="lang kor" onclick="loadCatalog('kor')">
+    <div class="title">KOREAN CATALOG</div>
+    <div class="sub">국문 카탈로그</div>
+  </div>
+  <div class="lang eng" onclick="loadCatalog('eng')">
+    <div class="title">ENGLISH CATALOG</div>
+    <div class="sub">영문 카탈로그</div>
+  </div>
+</div>
+
+<div class="select-guide" id="selectGuide">
+  선택해주세요<br/>Please select
+</div>
+
 <!-- 슬라이더 -->
-<div class="slider-container">
+<div class="slider-container" id="sliderContainer">
   <div class="slider" id="slider"></div>
 </div>
 
+<div class="swipe-guide" id="swipeGuide">← 좌우로 움직여주세요 →</div>
 <div class="page-indicator" id="indicator">1 / 23</div>
 
 <script>
 const total = 23;
 let index = 0;
 let startX = 0;
-let folder = "";
 
 function loadCatalog(lang) {
-  folder = lang;
   document.getElementById("langSelect").style.display = "none";
+  document.getElementById("selectGuide").style.display = "none";
+  document.getElementById("sliderContainer").style.display = "block";
 
   const slider = document.getElementById("slider");
   slider.innerHTML = "";
+  index = 0;
 
   for (let i = 0; i < total; i++) {
     const img = document.createElement("img");
-    img.src = `catalogs/${folder}/ODA CATALOG(${lang.toUpperCase()})-이미지-${i}.jpg`;
+    img.src = `catalogs/${lang}/ODA CATALOG(${lang.toUpperCase()})-이미지-${i}.jpg`;
     slider.appendChild(img);
   }
   update();
@@ -179,13 +231,13 @@ function update() {
   const slider = document.getElementById("slider");
   const w = slider.children[0].getBoundingClientRect().width;
   slider.style.transform = `translateX(-${index * w}px)`;
-  document.getElementById("indicator").textContent = `${index+1} / ${total}`;
+  document.getElementById("indicator").textContent = `${index + 1} / ${total}`;
 }
 
 document.addEventListener("touchstart", e => startX = e.touches[0].clientX);
 document.addEventListener("touchend", e => {
   const diff = startX - e.changedTouches[0].clientX;
-  if (diff > 50 && index < total-1) index++;
+  if (diff > 50 && index < total - 1) index++;
   if (diff < -50 && index > 0) index--;
   update();
 });
