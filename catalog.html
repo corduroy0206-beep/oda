@@ -9,6 +9,7 @@
 :root {
   --header-h: 56px;
   --cta-h: 56px;
+  --oda-orange: #f28c28;
 }
 
 * { box-sizing: border-box; }
@@ -40,50 +41,64 @@ html, body {
 .phone {
   font-size: 13px;
   font-weight: 600;
-  white-space: nowrap;
   color: #000;
   text-decoration: none;
+  white-space: nowrap;
 }
 
-/* ===== CTA (프리미엄 글래스 스타일) ===== */
+/* ===== CTA (ODA Orange Premium Button) ===== */
 .cta {
   position: fixed;
   top: var(--header-h);
   left: 0;
   width: 100%;
   height: var(--cta-h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-decoration: none;
+  z-index: 900;
+
   background:
     linear-gradient(
       120deg,
-      rgba(255,200,120,0.15) 0%,
-      rgba(255,255,255,0.35) 50%,
-      rgba(255,200,120,0.15) 100%
-    ),
-    #1a1a1a;
+      #f28c28 0%,
+      #ffb35c 50%,
+      #f28c28 100%
+    );
   background-size: 200% 100%;
-  color: #f5f5f5;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-align: center;
-  line-height: var(--cta-h);
-  text-decoration: none;
-  z-index: 900;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-  animation: sheen 10s linear infinite;
+
+  box-shadow:
+    0 4px 14px rgba(242,140,40,0.45),
+    inset 0 0 0 rgba(255,255,255,0.0);
+
+  animation: ctaFlow 6s ease-in-out infinite;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-@keyframes sheen {
+.cta:active {
+  transform: scale(0.97);
+  box-shadow:
+    0 2px 8px rgba(242,140,40,0.4),
+    inset 0 0 12px rgba(255,255,255,0.25);
+}
+
+@keyframes ctaFlow {
   0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* ===== Language Select ===== */
+/* ===== Language Select (Horizontal) ===== */
 .lang-select {
   min-height: 100vh;
   padding-top: calc(var(--header-h) + var(--cta-h));
   display: flex;
+  position: relative;
 }
 
 .lang {
@@ -105,24 +120,44 @@ html, body {
 .lang .title {
   font-size: 22px;
   font-weight: 800;
-  white-space: nowrap;        /* 🔑 한 줄 고정 */
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
 }
 
 .lang .sub {
-  margin-top: 6px;
+  margin-top: 8px;
   font-size: 13px;
   color: #aaa;
 }
 
-/* 선택 안내 */
-.select-guide {
-  position: fixed;
-  bottom: 20px;
-  width: 100%;
+/* ===== Center Divider & Guide ===== */
+.center-guide {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--cta-h) / 2);
+  transform: translate(-50%, -50%);
   text-align: center;
-  font-size: 14px;
+  pointer-events: none;
+}
+
+.center-guide::before {
+  content: "";
+  position: absolute;
+  top: -120px;
+  left: 50%;
+  width: 1px;
+  height: 240px;
+  background: rgba(255,255,255,0.25);
+  transform: translateX(-50%);
+}
+
+.center-guide span {
+  display: inline-block;
+  padding: 6px 14px;
+  font-size: 13px;
   color: #fff;
+  background: rgba(0,0,0,0.65);
+  border-radius: 20px;
   animation: blink 1.4s infinite;
 }
 
@@ -168,7 +203,7 @@ html, body {
   padding: 6px 12px;
   border-radius: 20px;
   font-size: 13px;
-  display: none; /* 🔑 초기엔 숨김 */
+  display: none;
 }
 
 @keyframes blink {
@@ -194,14 +229,15 @@ html, body {
     <div class="title">KOREAN CATALOG</div>
     <div class="sub">국문 카탈로그</div>
   </div>
+
   <div class="lang eng" onclick="loadCatalog('eng')">
     <div class="title">ENGLISH CATALOG</div>
     <div class="sub">영문 카탈로그</div>
   </div>
-</div>
 
-<div class="select-guide" id="selectGuide">
-  선택해주세요<br/>Please select
+  <div class="center-guide">
+    <span>선택해주세요 · Please select</span>
+  </div>
 </div>
 
 <div class="slider-container" id="sliderContainer">
@@ -218,7 +254,6 @@ let startX = 0;
 
 function loadCatalog(lang) {
   document.getElementById("langSelect").style.display = "none";
-  document.getElementById("selectGuide").style.display = "none";
   document.getElementById("sliderContainer").style.display = "block";
   document.getElementById("indicator").style.display = "block";
 
