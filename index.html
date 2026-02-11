@@ -9,14 +9,41 @@
     html, body {
       margin: 0;
       padding: 0;
-      width: 100%;
       background: #000;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    .cta {
+    /* 상단 헤더 */
+    .header {
       position: fixed;
       top: 0;
+      left: 0;
+      width: 100%;
+      height: 56px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      box-sizing: border-box;
+      z-index: 2000;
+    }
+
+    .logo {
+      height: 28px;
+    }
+
+    .phone {
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* CTA 버튼 */
+    .cta {
+      position: fixed;
+      top: 56px;
       left: 0;
       width: 100%;
       height: 56px;
@@ -27,35 +54,36 @@
       text-align: center;
       line-height: 56px;
       text-decoration: none;
-      z-index: 1000;
+      z-index: 1500;
     }
 
     .content {
-      padding-top: 56px;
+      padding-top: 112px;
     }
 
-    img {
+    img.product {
       display: block;
       width: 100vw;
       height: auto;
-      max-width: none;
     }
   </style>
 </head>
 <body>
 
-<!-- CTA 버튼 -->
-<a
-  class="cta"
-  href="https://forms.gle/JdcosiosWY13QEAN6"
-  target="_blank"
->
-  📩 견적 요청하기
+<!-- 헤더 -->
+<div class="header">
+  <img src="images/odalogo.png" alt="ODA Technologies" class="logo">
+  <a href="tel:07018008644" class="phone">070-1800-8644</a>
+</div>
+
+<!-- CTA -->
+<a class="cta" href="https://forms.gle/JdcosiosWY13QEAN6" target="_blank">
+  📩 제품 문의 및 견적 요청
 </a>
 
-<!-- 제품 이미지 -->
+<!-- 콘텐츠 -->
 <div class="content">
-  <img src="BX시리즈-QR코드-배너.png">
+  <img src="images/BX시리즈-QR코드-배너.png" alt="제품 이미지" class="product">
 </div>
 
 </body>
