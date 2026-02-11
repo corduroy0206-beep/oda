@@ -14,7 +14,7 @@ html, body {
   overflow: hidden;
 }
 
-/* ===== 공통 헤더 ===== */
+/* ===== 헤더 ===== */
 .header {
   position: fixed;
   top: 0;
@@ -25,34 +25,39 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 12px;
+  box-sizing: border-box;
   z-index: 3000;
 }
 
-.logo { height: 22px; }
-.phone {
-  color: #000;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
+.logo {
+  height: 22px;
+  flex-shrink: 0;
 }
 
-/* ===== CTA ===== */
+.phone {
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* ===== CTA (고급화) ===== */
 .cta {
   position: fixed;
   top: 56px;
   width: 100%;
   height: 56px;
-  background: linear-gradient(270deg, #ff6a00, #ff9f00, #ff6a00);
-  background-size: 400% 400%;
+  background: linear-gradient(135deg, #ff7a18, #ff9f00);
   color: #fff;
-  font-size: 17px;
-  font-weight: 800;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
   text-align: center;
   line-height: 56px;
   text-decoration: none;
   z-index: 2500;
-  animation: gradient 4s ease infinite, pulse 1.8s ease infinite;
 }
 
 /* ===== 언어 선택 ===== */
@@ -71,12 +76,10 @@ html, body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background 0.4s ease, transform 0.4s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.lang:hover {
-  transform: scale(1.02);
-}
+.lang:hover { transform: scale(1.02); }
 
 .lang.kor { background: #111; }
 .lang.eng { background: #1a1a1a; }
@@ -85,16 +88,15 @@ html, body {
   font-size: 22px;
   font-weight: 800;
   color: #fff;
-  letter-spacing: 0.5px;
 }
 
 .lang .sub {
   margin-top: 6px;
-  font-size: 15px;
+  font-size: 14px;
   color: #aaa;
 }
 
-/* 하단 안내 */
+/* 하단 선택 안내 */
 .select-guide {
   position: fixed;
   bottom: 24px;
@@ -127,18 +129,19 @@ html, body {
   flex-shrink: 0;
 }
 
-/* 좌우 안내 */
+/* 좌우 안내 (1페이지 전용) */
 .swipe-guide {
   position: fixed;
-  bottom: 60px;
+  bottom: 64px;
   width: 100%;
   text-align: center;
-  color: #fff;
   font-size: 14px;
-  opacity: 0.9;
+  color: #fff;
+  animation: blink 1.4s infinite;
+  display: none;
 }
 
-/* 페이지 */
+/* 페이지 표시 */
 .page-indicator {
   position: fixed;
   bottom: 16px;
@@ -151,16 +154,6 @@ html, body {
 }
 
 /* 애니메이션 */
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-  100% { transform: scale(1); }
-}
 @keyframes blink {
   0%,100% { opacity: 1; }
   50% { opacity: 0.3; }
@@ -173,12 +166,12 @@ html, body {
 <!-- 헤더 -->
 <div class="header">
   <img src="odalogo_new20220221(가로).png" class="logo">
-  <a href="tel:18008644" class="phone">📞 1800-8644</a>
+  <a href="tel:18008644" class="phone">070-1800-8644</a>
 </div>
 
 <!-- CTA -->
 <a class="cta" href="https://forms.gle/JdcosiosWY13QEAN6" target="_blank">
-  📩 제품 문의 및 견적 요청
+  제품 상담 · 견적 문의
 </a>
 
 <!-- 언어 선택 -->
@@ -231,7 +224,9 @@ function update() {
   const slider = document.getElementById("slider");
   const w = slider.children[0].getBoundingClientRect().width;
   slider.style.transform = `translateX(-${index * w}px)`;
+
   document.getElementById("indicator").textContent = `${index + 1} / ${total}`;
+  document.getElementById("swipeGuide").style.display = index === 0 ? "block" : "none";
 }
 
 document.addEventListener("touchstart", e => startX = e.touches[0].clientX);
