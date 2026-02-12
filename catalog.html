@@ -8,8 +8,7 @@
 <style>
 :root {
   --header-h: 56px;
-  --cta-h: 56px;
-  --oda-orange: #f28c28;
+  --cta-h: 70px;
 }
 
 * { box-sizing: border-box; }
@@ -38,6 +37,20 @@ html, body {
 
 .logo { height: 22px; }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.home-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
 .phone {
   font-size: 13px;
   font-weight: 600;
@@ -46,53 +59,11 @@ html, body {
   white-space: nowrap;
 }
 
-/* ===== CTA (ODA Orange Premium) ===== */
-.cta {
-  position: fixed;
-  top: var(--header-h);
-  left: 0;
-  width: 100%;
-  height: var(--cta-h);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  text-decoration: none;
-  z-index: 900;
-
-  background: linear-gradient(
-    120deg,
-    #f28c28 0%,
-    #ffb35c 50%,
-    #f28c28 100%
-  );
-  background-size: 200% 100%;
-
-  box-shadow: 0 4px 14px rgba(242,140,40,0.45);
-  animation: ctaFlow 6s ease-in-out infinite;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.cta:active {
-  transform: scale(0.97);
-  box-shadow:
-    0 2px 8px rgba(242,140,40,0.4),
-    inset 0 0 12px rgba(255,255,255,0.25);
-}
-
-@keyframes ctaFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* ===== Language Select (Vertical Stack) ===== */
+/* ===== Language Select ===== */
 .lang-select {
   min-height: 100vh;
-  padding-top: calc(var(--header-h) + var(--cta-h));
+  padding-top: var(--header-h);
+  padding-bottom: var(--cta-h);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -111,14 +82,12 @@ html, body {
 }
 
 .lang.eng { background: #1a1a1a; }
-
 .lang:hover { background: #222; }
 
 .lang .title {
   font-size: 22px;
   font-weight: 800;
   letter-spacing: 0.6px;
-  white-space: nowrap;
 }
 
 .lang .sub {
@@ -127,12 +96,12 @@ html, body {
   color: #aaa;
 }
 
-/* ===== Horizontal Divider & Guide (여백 적용) ===== */
+/* ===== Center Guide ===== */
 .center-guide {
   position: absolute;
-  top: calc(50% + var(--cta-h) / 2);
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 0;
+  width: 100%;
   text-align: center;
   pointer-events: none;
 }
@@ -150,18 +119,63 @@ html, body {
 .center-guide span {
   position: relative;
   display: inline-block;
-  padding: 6px 16px;
+  padding: 8px 18px;
   font-size: 13px;
   color: #fff;
   background: rgba(0,0,0,0.7);
   border-radius: 20px;
+  line-height: 1.4;
   animation: blink 1.4s infinite;
+}
+
+/* ===== Bottom CTA ===== */
+.bottom-cta {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  max-width: 360px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+
+  border-radius: 20px;
+  background: linear-gradient(
+    120deg,
+    #e86f00 0%,
+    #ff9a2f 50%,
+    #EB4C00 100%
+  );
+  background-size: 200% 100%;
+  animation: ctaFlow 6s ease-in-out infinite;
+
+  box-shadow: 0 6px 18px rgba(232,111,0,0.55);
+  z-index: 900;
+}
+
+.bottom-cta:active {
+  transform: translateX(-50%) scale(0.97);
+}
+
+@keyframes ctaFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ===== Slider ===== */
 .slider-container {
   display: none;
-  padding-top: calc(var(--header-h) + var(--cta-h));
+  padding-top: var(--header-h);
+  padding-bottom: var(--cta-h);
   min-height: 100vh;
   overflow: hidden;
 }
@@ -181,7 +195,7 @@ html, body {
 
 .swipe-guide {
   position: fixed;
-  bottom: 60px;
+  bottom: 90px;
   width: 100%;
   text-align: center;
   font-size: 14px;
@@ -192,7 +206,7 @@ html, body {
 
 .page-indicator {
   position: fixed;
-  bottom: 16px;
+  bottom: 90px;
   right: 16px;
   background: rgba(0,0,0,0.6);
   color: #fff;
@@ -211,15 +225,16 @@ html, body {
 
 <body>
 
+<!-- Header -->
 <div class="header">
   <img src="odalogo_new20220221(가로).png" class="logo">
-  <a href="tel:18008644" class="phone">📞1800-8644</a>
+  <div class="header-right">
+    <a href="https://www.odacore.com/main" target="_blank" class="home-link">🌐 홈페이지</a>
+    <a href="tel:18008644" class="phone">📞1800-8644</a>
+  </div>
 </div>
 
-<a class="cta" href="https://forms.gle/JdcosiosWY13QEAN6" target="_blank">
-  제품 상담 · 견적 문의
-</a>
-
+<!-- Language Select -->
 <div class="lang-select" id="langSelect">
   <div class="lang kor" onclick="loadCatalog('kor')">
     <div class="title">국문 카탈로그</div>
@@ -233,18 +248,28 @@ html, body {
 
   <div class="center-guide">
     <span>
-  선택해주세요<br>
-  <small>Please select</small>
-</span>
+      선택해주세요<br>
+      Please select
+    </span>
   </div>
 </div>
 
+<!-- Slider -->
 <div class="slider-container" id="sliderContainer">
   <div class="slider" id="slider"></div>
 </div>
 
 <div class="swipe-guide" id="swipeGuide">← 좌우로 움직여주세요 →</div>
 <div class="page-indicator" id="indicator">1 / 23</div>
+
+<!-- Bottom CTA -->
+<a
+  class="bottom-cta"
+  href="https://forms.gle/JdcosiosWY13QEAN6"
+  target="_blank"
+>
+  제품 상담 · 견적 문의
+</a>
 
 <script>
 const total = 23;
