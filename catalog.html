@@ -186,10 +186,9 @@ html, body {
 }
 
 .slider img {
+  width: 100vw;
   height: calc(100vh - var(--header-h) - var(--cta-h));
-  aspect-ratio: 1 / 1.414;
-  object-fit: contain;
-  margin: auto;
+  object-fit: cover;        /* 🔥 화면 꽉 채우기 */
   flex-shrink: 0;
 }
 
